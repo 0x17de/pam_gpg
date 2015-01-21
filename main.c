@@ -54,7 +54,6 @@ static size_t readMessage(pid_t pid, char* buffer, size_t canRead, int fd) {
 			return 0; // abort, buffer too small
 
 		size_t ret = read(fd, bufferPtr, canRead);
-		printf("ret: %lu\n", ret);
 		if (ret == -1 || ret == 0)
 			break;
 		canRead -= ret;
@@ -90,6 +89,7 @@ static int requestSignature(char* toSignBuffer, unsigned int length, char* signe
 		dup2(fdRequestSig2[1], STDOUT_FILENO);
 		close(fdRequestSig1[0]);
 		close(fdRequestSig2[1]);
+		close(STDERR_FILENO); // Less printing
 		char* const argv[] = {GPG_PATH, "--no-default-keyring", "--keyring", "/etc/authorized_pubkey.gpg", "--armor", "--detach-sign", 0};
 		execv(GPG_PATH, argv);
 		exit(1);
@@ -120,6 +120,7 @@ static int verifyData(char* toSignBuffer, char* signedBuffer, size_t sigLength) 
 		close(fdVerifyData1[1]);
 		dup2(fdVerifyData1[0], STDIN_FILENO);
 		close(fdVerifyData1[0]);
+		close(STDERR_FILENO); // Less printing
 		char* const argv[] = {GPG_PATH, "--no-default-keyring", "--keyring", "/etc/authorized_pubkey.gpg", "--verify", 0};
 		execv(GPG_PATH, argv);
 		exit(1);
@@ -132,7 +133,6 @@ static int verifyData(char* toSignBuffer, char* signedBuffer, size_t sigLength) 
 			close(fdVerifyData1[1]);
 			return 5;
 		}
-		printf("----\n%s----\n", buffer);
 
 		write(fdVerifyData1[1], buffer, ret);
 		close(fdVerifyData1[1]);
