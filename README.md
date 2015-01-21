@@ -1,6 +1,8 @@
 # pam_gpg
 PAM module for authentication against e.g. g10 smartcards via gpg.
 
+[Pin entry example](http://www.icetruck.de/0/pics/pinentry.png)
+
 **Use this at your own risk.** Please verify&validate the source before usage.
 
 Not yet implemented: Per user basis - currently you can log into every user by using the smartcard.
