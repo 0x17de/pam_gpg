@@ -3,6 +3,8 @@ PAM module for authentication against e.g. g10 smartcards via gpg.
 
 **Use this at your own risk.** Please verify&validate the source before usage.
 
+Not yet implemented: Per user basis - currently you can log into every user by using the smartcard.
+
 ## Setup:
 - GPG-PublicKeys for login have to be exported to */etc/authorized_pubkey.gpg*.
 - The library pam_gpg.so must be copied to /lib/security.
