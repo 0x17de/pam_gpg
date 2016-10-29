@@ -28,10 +28,10 @@ static size_t genRandomBase64Data(char* buffer) {
 	int i;
 	for (i = 0; i < ((TO_SIGN_BUFFER_SIZE - 1) / 4); ++i) {
 		fread(tempData, 1, 3, fUrandom);
-		*buffer = base64chars[(tempData[1] >> 2)&0x3f]; ++buffer;
-		*buffer = base64chars[((tempData[1] << 4) + ((tempData[2] >> 4)&0x3f))&0x3f]; ++buffer;
-		*buffer = base64chars[((tempData[2] << 2) + ((tempData[3] >> 6)&0x3f))&0x3f]; ++buffer;
-		*buffer = base64chars[tempData[3]&0x3f]; ++buffer;
+		*buffer = base64chars[(tempData[0] >> 2)&0x3f]; ++buffer;
+		*buffer = base64chars[((tempData[0] << 4) + ((tempData[1] >> 4)&0x3f))&0x3f]; ++buffer;
+		*buffer = base64chars[((tempData[1] << 2) + ((tempData[2] >> 6)&0x3f))&0x3f]; ++buffer;
+		*buffer = base64chars[tempData[2]&0x3f]; ++buffer;
 		length += 4;
 	}
 	*buffer = 0;
